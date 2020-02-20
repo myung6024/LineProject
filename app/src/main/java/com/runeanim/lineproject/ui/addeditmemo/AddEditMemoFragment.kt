@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import com.runeanim.lineproject.R
 import com.runeanim.lineproject.base.BaseFragment
 import com.runeanim.lineproject.databinding.AddMemoFragmentBinding
@@ -19,10 +21,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddEditMemoFragment :
     BaseFragment<AddMemoFragmentBinding, AddEditMemoViewModel>(R.layout.add_memo_fragment) {
-
-    companion object {
-        fun newInstance() = AddEditMemoFragment()
-    }
 
     override val viewModel: AddEditMemoViewModel by viewModel()
 
@@ -48,7 +46,7 @@ class AddEditMemoFragment :
             showImageChooser()
         })
         viewModel.memoUpdatedEvent.observe(this, EventObserver {
-            activity?.finish()
+            navigateToMemos()
         })
     }
 
@@ -103,9 +101,14 @@ class AddEditMemoFragment :
                 Log.v(
                     ContentValues.TAG,
                     "Permission: " + permissions[0] + "was " + grantResults[0]
-                );
-                //resume tasks needing this permission
+                )
             }
         }
+    }
+
+    private fun navigateToMemos() {
+        val action = AddEditMemoFragmentDirections
+            .actionAddEditMemoFragmentToMemosFragment()
+        findNavController().navigate(action)
     }
 }

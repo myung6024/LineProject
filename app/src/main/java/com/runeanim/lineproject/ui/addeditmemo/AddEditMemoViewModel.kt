@@ -18,7 +18,7 @@ class AddEditMemoViewModel(
     private val _attachedImages = MutableLiveData<List<AttachedImage>>(emptyList())
     val attachedImages: LiveData<List<AttachedImage>> = _attachedImages
 
-    var pos = 0
+    private var pos = 0
 
     private val attachedImageList = arrayListOf<AttachedImage>()
 

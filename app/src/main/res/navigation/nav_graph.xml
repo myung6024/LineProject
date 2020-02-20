@@ -13,7 +13,8 @@
             app:destination="@id/add_edit_memo_fragment_dest" />
         <argument
             android:name="memoId"
-            app:argType="string" />
+            app:argType="integer"
+            android:defaultValue="-1" />
         <action
             android:id="@+id/action_memoDetailFragment_to_memosFragment"
             app:destination="@id/memos_fragment_dest" />
@@ -40,12 +41,8 @@
         android:label="{title}">
         <argument
             android:name="memoId"
-            app:argType="string"
-            app:nullable="true" />
-        <argument
-            android:name="title"
-            app:argType="string"
-            app:nullable="false" />
+            app:argType="integer"
+            android:defaultValue="-1" />
         <action
             android:id="@+id/action_addEditMemoFragment_to_memosFragment"
             app:destination="@id/memos_fragment_dest"

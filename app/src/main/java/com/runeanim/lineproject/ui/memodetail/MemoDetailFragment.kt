@@ -1,33 +1,28 @@
 package com.runeanim.lineproject.ui.memodetail
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
+import androidx.navigation.fragment.navArgs
 import com.runeanim.lineproject.R
+import com.runeanim.lineproject.base.BaseFragment
+import com.runeanim.lineproject.databinding.MemoDetailFragmentBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MemoDetailFragment : Fragment() {
+class MemoDetailFragment :
+    BaseFragment<MemoDetailFragmentBinding, MemoDetailViewModel>(R.layout.memo_detail_fragment) {
 
-    companion object {
-        fun newInstance() = MemoDetailFragment()
-    }
+    private val args: MemoDetailFragmentArgs by navArgs()
 
-    private lateinit var viewModel: MemoDetailViewModel
+    override val viewModel: MemoDetailViewModel by viewModel()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.memo_detail_fragment, container, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewDataBinding.apply {
+            viewmodel = viewModel
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MemoDetailViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel.start(args.memoId)
     }
-
 }

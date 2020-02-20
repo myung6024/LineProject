@@ -12,9 +12,9 @@ interface MemosDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMemo(memoEntity: MemoEntity)
 
-    @Query("SELECT * FROM memos ORDER BY itemOrder ASC")
+    @Query("SELECT * FROM memos ORDER BY itemOrder DESC")
     fun getMemos(): LiveData<List<MemoEntity>>
 
     @Query("SELECT * FROM memos WHERE id = :id")
-    fun getMemoById(id: String): LiveData<MemoEntity>
+    fun getMemoById(id: Int): LiveData<MemoEntity>
 }
