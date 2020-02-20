@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.runeanim.lineproject.databinding.MemoItemBinding
-import com.runeanim.lineproject.model.Memo
+import com.runeanim.lineproject.model.MemoEntity
 
 class MemoListAdapter(private val viewmodel: MainViewModel) :
-    ListAdapter<Memo, MemoListAdapter.ViewHolder>(TaskDiffCallback()) {
+    ListAdapter<MemoEntity, MemoListAdapter.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
@@ -23,7 +23,7 @@ class MemoListAdapter(private val viewmodel: MainViewModel) :
     class ViewHolder private constructor(private val binding: MemoItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(viewmodel: MainViewModel, item: Memo) {
+        fun bind(viewmodel: MainViewModel, item: MemoEntity) {
             binding.viewmodel = viewmodel
             binding.item = item
             binding.executePendingBindings()
@@ -46,12 +46,12 @@ class MemoListAdapter(private val viewmodel: MainViewModel) :
  * Used by ListAdapter to calculate the minimum number of changes between and old list and a new
  * list that's been passed to `submitList`.
  */
-class TaskDiffCallback : DiffUtil.ItemCallback<Memo>() {
-    override fun areItemsTheSame(oldItem: Memo, newItem: Memo): Boolean {
+class TaskDiffCallback : DiffUtil.ItemCallback<MemoEntity>() {
+    override fun areItemsTheSame(oldItem: MemoEntity, newItem: MemoEntity): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Memo, newItem: Memo): Boolean {
+    override fun areContentsTheSame(oldItem: MemoEntity, newItem: MemoEntity): Boolean {
         return oldItem == newItem
     }
 }

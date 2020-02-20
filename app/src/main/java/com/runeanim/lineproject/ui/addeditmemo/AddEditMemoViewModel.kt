@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.runeanim.lineproject.local.MemosDao
 import com.runeanim.lineproject.model.AttachedImage
 import com.runeanim.lineproject.model.AttachedImageType
-import com.runeanim.lineproject.model.Memo
+import com.runeanim.lineproject.model.MemoEntity
 import com.runeanim.lineproject.util.Event
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,7 @@ class AddEditMemoViewModel(
     fun saveMemo(title: String, body: String) {
         viewModelScope.launch {
             memosDao.insertMemo(
-                Memo(
+                MemoEntity(
                     title,
                     body,
                     attachedImageList,
