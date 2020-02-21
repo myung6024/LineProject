@@ -17,7 +17,9 @@
             app:argType="integer" />
         <action
             android:id="@+id/action_memoDetailFragment_to_memosFragment"
-            app:destination="@id/memos_fragment_dest" />
+            app:destination="@id/memos_fragment_dest"
+            app:popUpTo="@+id/nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_memo_detail_fragment_dest_to_image_detail_fragment_dest"
             app:destination="@id/image_detail_fragment_dest" />

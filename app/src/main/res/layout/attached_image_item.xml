@@ -4,6 +4,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="isEditMode"
+            type="Boolean" />
+
         <variable
             name="listener"
             type="com.runeanim.lineproject.base.AttachedImageClickListener" />
@@ -13,17 +19,28 @@
             type="com.runeanim.lineproject.model.AttachedImage" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
         android:onClick="@{() -> listener.onAttachedImageClick(item)}"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
+            app:riv_border_color="@android:color/darker_gray"
+            app:riv_border_width="1dp"
+            app:riv_corner_radius="8dp"
             app:thumbnailImage="@{item.path}" />
 
-    </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:visibility="@{isEditMode ? View.VISIBLE : View.GONE}"
+            android:src="@drawable/ic_cancel_white_24dp"
+            android:tint="@android:color/holo_red_dark" />
+    </FrameLayout>
 </layout>

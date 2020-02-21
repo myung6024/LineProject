@@ -10,12 +10,12 @@ import com.runeanim.lineproject.base.AttachedImageClickListener
 import com.runeanim.lineproject.databinding.AttachedImageItemBinding
 import com.runeanim.lineproject.model.AttachedImage
 
-class AttachedImageAdapter(val listener: AttachedImageClickListener) :
+class AttachedImageAdapter(val listener: AttachedImageClickListener, val isEditMode: Boolean = false) :
     ListAdapter<AttachedImage, AttachedImageAdapter.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(listener, item)
+        holder.bind(listener, item, isEditMode)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,7 +25,8 @@ class AttachedImageAdapter(val listener: AttachedImageClickListener) :
     class ViewHolder private constructor(private val binding: AttachedImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(listener: AttachedImageClickListener, item: AttachedImage) {
+        fun bind(listener: AttachedImageClickListener, item: AttachedImage, isEditMode: Boolean) {
+            binding.isEditMode = isEditMode
             binding.listener = listener
             binding.item = item
             binding.executePendingBindings()

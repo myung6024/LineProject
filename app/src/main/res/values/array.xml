@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="attached_image_type_array">
+        <item>@string/image_from_storage</item>
+        <item>@string/image_from_url</item>
+    </string-array>
+</resources>

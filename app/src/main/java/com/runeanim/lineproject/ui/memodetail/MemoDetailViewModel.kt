@@ -1,14 +1,13 @@
 package com.runeanim.lineproject.ui.memodetail
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.*
 import com.runeanim.lineproject.base.AttachedImageClickListener
 import com.runeanim.lineproject.local.MemosDao
 import com.runeanim.lineproject.model.AttachedImage
 import com.runeanim.lineproject.model.Memo
 import com.runeanim.lineproject.util.Event
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MemoDetailViewModel(
     private val memosDao: MemosDao
@@ -27,6 +26,9 @@ class MemoDetailViewModel(
     private val _showImageDetailEvent = MutableLiveData<Event<String>>()
     val showImageDetailEvent: LiveData<Event<String>> = _showImageDetailEvent
 
+    private val _closeEvent = MutableLiveData<Event<Unit>>()
+    val closeEvent: LiveData<Event<Unit>> = _closeEvent
+
     fun start(memoId: Int) {
         if (memoId == _memoId.value) {
             return
@@ -36,6 +38,21 @@ class MemoDetailViewModel(
 
     fun editMemo() {
         _editMemoEvent.value = Event(Unit)
+    }
+
+    fun close() {
+        _closeEvent.value = Event(Unit)
+    }
+
+    fun removeMemo(): Boolean {
+        val memoId = _memoId.value
+        memoId?.let {
+            viewModelScope.launch(Dispatchers.IO) {
+                memosDao.removeMemoById(memoId)
+            }
+        }
+        _closeEvent.value = Event(Unit)
+        return true
     }
 
     override fun onAttachedImageClick(attachedImage: AttachedImage) {

@@ -52,5 +52,11 @@ class MemoDetailFragment :
                 .actionMemoDetailFragmentDestToImageDetailFragmentDest(it)
             findNavController().navigate(action)
         })
+
+        viewModel.closeEvent.observe(this, EventObserver {
+            val action = MemoDetailFragmentDirections
+                .actionMemoDetailFragmentToMemosFragment()
+            findNavController().navigate(action)
+        })
     }
 }

@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,6 +19,9 @@ import com.runeanim.lineproject.util.EventObserver
 import gun0912.tedimagepicker.builder.TedImagePicker
 import kotlinx.android.synthetic.main.add_memo_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import android.widget.EditText
+import java.util.regex.Pattern
+
 
 class AddEditMemoFragment :
     BaseFragment<AddMemoFragmentBinding, AddEditMemoViewModel>(R.layout.add_memo_fragment) {
@@ -47,7 +51,7 @@ class AddEditMemoFragment :
 
     private fun setupEventObserve() {
         viewModel.showImageChooserEvent.observe(this, EventObserver {
-            showImageChooser()
+            createFilterSelectDialog().show()
         })
         viewModel.memoUpdatedEvent.observe(this, EventObserver {
             navigateToMemos()
@@ -66,7 +70,7 @@ class AddEditMemoFragment :
     }
 
     private fun setupListAdapter() {
-        adapter = AttachedImageAdapter(viewModel)
+        adapter = AttachedImageAdapter(viewModel, true)
         recycler_view.adapter = adapter
     }
 
@@ -108,6 +112,42 @@ class AddEditMemoFragment :
                 )
             }
         }
+    }
+
+    private fun createFilterSelectDialog(): AlertDialog =
+        context?.let {
+            val builder = AlertDialog.Builder(it)
+            builder
+                .setItems(
+                    R.array.attached_image_type_array
+                ) { _, which ->
+                    when (which) {
+                        0 -> showImageChooser()
+                        else -> showUrlDialog()
+                    }
+                }
+            return builder.create()
+        } ?: throw IllegalStateException("Activity cannot be null")
+
+    private fun showUrlDialog() {
+        val et = EditText(context)
+        et.hint = "http://"
+        val dialog = AlertDialog.Builder(context!!, R.style.MyAlertDialogStyle)
+            .setMessage("이미지의 url을 입력하세요")
+            .setView(et)
+            .setPositiveButton("확인") { _, _ ->
+            }.create()
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setOnClickListener {
+                val url = et.text.toString()
+                val reg = "https?://[-\\w.]+(:\\d+)?(/([\\w/_.]*)?)?"
+                if (Pattern.matches(reg, url)) {
+                    viewModel.addAttachedImageFromURL(url)
+                    dialog.dismiss()
+                }
+            }
     }
 
     private fun navigateToMemos() {

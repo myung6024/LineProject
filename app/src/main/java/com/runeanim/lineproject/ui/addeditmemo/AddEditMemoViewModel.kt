@@ -123,25 +123,22 @@ class AddEditMemoViewModel(
     }
 
     fun addAttachedImageFromURL(url: String) {
-        val reg = "https?://[-\\w.]+(:\\d+)?(/([\\w/_.]*)?)?"
-        if (Pattern.matches(reg, url)) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val connection =
-                    URL(url).openConnection()
-                val contentType = connection.getHeaderField("Content-Type")
-                val isImage = contentType.startsWith("image/")
+        viewModelScope.launch(Dispatchers.IO) {
+            val connection =
+                URL(url).openConnection()
+            val contentType = connection.getHeaderField("Content-Type")
+            val isImage = contentType?.startsWith("image/") ?: false
 
-                launch(Dispatchers.Main) {
-                    if (isImage) {
-                        attachedImageList.add(
-                            AttachedImage(
-                                imageId++,
-                                AttachedImageType.URL,
-                                url
-                            )
+            launch(Dispatchers.Main) {
+                if (isImage) {
+                    attachedImageList.add(
+                        AttachedImage(
+                            imageId++,
+                            AttachedImageType.URL,
+                            url
                         )
-                        _attachedImages.value = attachedImageList.toMutableList()
-                    }
+                    )
+                    _attachedImages.value = attachedImageList.toMutableList()
                 }
             }
         }
