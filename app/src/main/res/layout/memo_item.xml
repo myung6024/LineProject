@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -13,27 +14,68 @@
             type="com.runeanim.lineproject.model.Memo" />
     </data>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:onClick="@{() -> viewmodel.openMemo(item.id)}"
-        android:onLongClick="@{() -> viewmodel.removeMemo(item.id)}"
-        android:orientation="vertical">
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{item.title}" />
+            android:background="?selectableItemBackground"
+            android:onClick="@{() -> viewmodel.openMemo(item.id)}"
+            android:onLongClick="@{() -> viewmodel.removeMemo(item.id)}"
+            android:orientation="horizontal"
+            android:padding="12dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{item.body}" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            app:thumbnailImage="@{item.attachedImages.size() > 0 ? item.attachedImages.get(0).path : null }" />
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{item.title}"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Title" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/title"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{item.body}"
+                    android:textColor="#777777"
+                    android:textSize="14sp"
+                    tools:text="Body" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="12sp"
+                    app:timeText="@{item.order}"
+                    tools:text="Date" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="right"
+                android:layout_marginStart="8dp"
+                app:thumbnailImage="@{item.attachedImages.size() > 0 ? item.attachedImages.get(0).path : null }" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

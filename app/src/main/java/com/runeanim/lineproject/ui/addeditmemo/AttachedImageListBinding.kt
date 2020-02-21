@@ -11,6 +11,7 @@ fun ImageView.setProductImage(path: String?) {
     path?.let {
         Glide.with(context)
             .load(path)
+            .centerCrop()
             .into(this)
     }
 }
