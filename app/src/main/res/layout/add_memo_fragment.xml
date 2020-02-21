@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.main.MainFragment">
+        tools:context=".ui.memos.MemosFragment">
 
         <TextView
             android:id="@+id/message"
@@ -31,19 +31,22 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@={viewmodel.title}"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@={viewmodel.body}"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <Button
-            android:onClick="@{() -> viewmodel.showImageChooser()}"
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.showImageChooser()}"
+            android:text="이미지 추가"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text" />
 
@@ -58,11 +61,26 @@
             app:layout_constraintTop_toBottomOf="@+id/image"
             tools:listitem="@layout/attached_image_item" />
 
+
+        <EditText
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.addAttachedImageFromURL(url.getText().toString())}"
+            android:text="이미지 추가(URL)"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text" />
+
         <Button
             android:id="@+id/save"
             android:layout_width="wrap_content"
-            android:onClick="@{() -> viewmodel.saveMemo(title.getText().toString(), text.getText().toString)}"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewmodel.saveMemo()}"
+            android:text="저장"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text" />
 

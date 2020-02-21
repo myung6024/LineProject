@@ -88,4 +88,6 @@ dependencies {
     implementation 'gun0912.ted:tedimagepicker:1.0.8'
 
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

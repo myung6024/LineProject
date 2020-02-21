@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.runeanim.lineproject.ui.main.MainViewModel" />
+            type="com.runeanim.lineproject.ui.memos.MemosViewModel" />
     </data>
 
     <FrameLayout
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.main.MainFragment">
+        tools:context=".ui.memos.MemosFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_memo"

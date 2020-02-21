@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "memos")
-data class MemoEntity(
+data class Memo(
     val title : String,
     val body : String,
     val attachedImages: List<AttachedImage> = emptyList(),

@@ -9,8 +9,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.runeanim.lineproject.R
 import com.runeanim.lineproject.base.BaseFragment
 import com.runeanim.lineproject.databinding.AddMemoFragmentBinding
@@ -23,6 +23,8 @@ class AddEditMemoFragment :
     BaseFragment<AddMemoFragmentBinding, AddEditMemoViewModel>(R.layout.add_memo_fragment) {
 
     override val viewModel: AddEditMemoViewModel by viewModel()
+
+    private val args: AddEditMemoFragmentArgs by navArgs()
 
     lateinit var adapter: AttachedImageAdapter
 
@@ -39,6 +41,8 @@ class AddEditMemoFragment :
         //setupImageChooser()
         setupEventObserve()
         setupListAdapter()
+
+        viewModel.start(args.memoId)
     }
 
     private fun setupEventObserve() {

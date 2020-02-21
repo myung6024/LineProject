@@ -1,17 +1,17 @@
-package com.runeanim.lineproject.ui.main
+package com.runeanim.lineproject.ui.memos
 
 import android.os.Bundle
 import androidx.navigation.fragment.findNavController
 import com.runeanim.lineproject.R
 import com.runeanim.lineproject.base.BaseFragment
-import com.runeanim.lineproject.databinding.MainFragmentBinding
+import com.runeanim.lineproject.databinding.MemosFragmentBinding
 import com.runeanim.lineproject.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.main_fragment) {
+class MemosFragment : BaseFragment<MemosFragmentBinding, MemosViewModel>(R.layout.memos_fragment) {
 
-    override val viewModel: MainViewModel by viewModel()
+    override val viewModel: MemosViewModel by viewModel()
 
     private lateinit var listAdapter: MemoListAdapter
 
@@ -47,13 +47,13 @@ class MainFragment : BaseFragment<MainFragmentBinding, MainViewModel>(R.layout.m
     }
 
     private fun navigateToAddNewMemo() {
-        val action = MainFragmentDirections
+        val action = MemosFragmentDirections
             .actionMemosFragmentToAddEditMemoFragment()
         findNavController().navigate(action)
     }
 
     private fun openMemoDetails(memoId: Int) {
-        val action = MainFragmentDirections.actionMemosFragmentToMemoDetailFragment(memoId)
+        val action = MemosFragmentDirections.actionMemosFragmentToMemoDetailFragment(memoId)
         findNavController().navigate(action)
     }
 

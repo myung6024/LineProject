@@ -2,18 +2,20 @@ package com.runeanim.lineproject.ui.addeditmemo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.runeanim.lineproject.base.AttachedImageClickListener
 import com.runeanim.lineproject.databinding.AttachedImageItemBinding
 import com.runeanim.lineproject.model.AttachedImage
 
-class AttachedImageAdapter(val viewModel: AddEditMemoViewModel) :
+class AttachedImageAdapter(val listener: AttachedImageClickListener) :
     ListAdapter<AttachedImage, AttachedImageAdapter.ViewHolder>(TaskDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(viewModel, item)
+        holder.bind(listener, item)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,8 +25,8 @@ class AttachedImageAdapter(val viewModel: AddEditMemoViewModel) :
     class ViewHolder private constructor(private val binding: AttachedImageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(viewModel: AddEditMemoViewModel, item: AttachedImage) {
-            binding.viewmodel = viewModel
+        fun bind(listener: AttachedImageClickListener, item: AttachedImage) {
+            binding.listener = listener
             binding.item = item
             binding.executePendingBindings()
         }

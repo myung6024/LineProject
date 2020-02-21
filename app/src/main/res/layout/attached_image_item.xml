@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="viewmodel"
-            type="com.runeanim.lineproject.ui.addeditmemo.AddEditMemoViewModel" />
+            name="listener"
+            type="com.runeanim.lineproject.base.AttachedImageClickListener" />
 
         <variable
             name="item"
@@ -16,7 +16,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="@{() -> viewmodel.removeAttachedImage(item)}"
+        android:onClick="@{() -> listener.onAttachedImageClick(item)}"
         android:orientation="vertical">
 
         <ImageView
