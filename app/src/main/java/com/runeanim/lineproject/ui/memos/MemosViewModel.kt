@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 class MemosViewModel(
     private val memosDao: MemosDao
 ) : ViewModel() {
-    // TODO: Implement the ViewModel
     private val _memos: LiveData<List<Memo>> by lazy { memosDao.getMemos() }
     val memos: LiveData<List<Memo>> = _memos
 
@@ -24,7 +23,7 @@ class MemosViewModel(
         _openMemoEvent.value = Event(memoId)
     }
 
-    fun openLongTask(memoId: Int): Boolean {
+    fun removeMemo(memoId: Int): Boolean {
         viewModelScope.launch(Dispatchers.IO) {
             memosDao.removeMemoById(memoId)
         }

@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
-        android:onLongClick="@{() -> viewmodel.openLongTask(item.id)}"
         android:onClick="@{() -> viewmodel.openMemo(item.id)}"
+        android:onLongClick="@{() -> viewmodel.removeMemo(item.id)}"
         android:orientation="vertical">
 
         <TextView
