@@ -54,7 +54,7 @@ class MemoDetailViewModel(
     fun removeMemo(): Boolean {
         val memoId = _memoId.value
         memoId?.let {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 memosRepository.deleteMemo(memoId)
             }
         }

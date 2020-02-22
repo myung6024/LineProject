@@ -83,12 +83,12 @@ class AddEditMemoViewModel(
         val currentTitle = title.value
         val currentBody = body.value
 
-        if (currentTitle == null) {
+        if (currentTitle.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.error_empty_title)
             return
         }
 
-        if (currentBody == null) {
+        if (currentBody.isNullOrEmpty()) {
             _snackbarText.value = Event(R.string.error_empty_body)
             return
         }
