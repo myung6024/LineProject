@@ -35,8 +35,8 @@
                     android:layout_width="@dimen/button_size_normal"
                     android:layout_height="match_parent"
                     android:layout_centerVertical="true"
-                    android:onClick="@{() -> viewmodel.close()}"
                     android:background="?selectableItemBackgroundBorderless"
+                    android:onClick="@{() -> viewmodel.close()}"
                     android:src="@drawable/ic_close_black_24dp" />
 
                 <TextView
@@ -55,61 +55,69 @@
             </RelativeLayout>
         </Toolbar>
 
-        <EditText
-            android:id="@+id/et_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_large"
-            android:hint="@string/memo_title"
-            android:maxLines="1"
-            android:text="@={viewmodel.title}"
-            android:textColor="@android:color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:scrollbars="none">
 
-            <EditText
-                android:id="@+id/et_text"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_large"
-                android:layout_marginEnd="@dimen/spacing_large"
-                android:background="@null"
-                android:hint="@string/memo_body"
-                android:text="@={viewmodel.body}"
-                android:textColor="@android:color/black" />
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/et_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/spacing_large"
+                    android:hint="@string/memo_title"
+                    android:maxLines="1"
+                    android:text="@={viewmodel.title}"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/et_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/memo_body"
+                    android:minHeight="200dp"
+                    android:text="@={viewmodel.body}"
+                    android:textColor="@android:color/black" />
+
+
+                <TextView
+                    android:id="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:drawableStart="@drawable/ic_image_black_24dp"
+                    android:drawablePadding="@dimen/spacing_tiny"
+                    android:gravity="center_vertical"
+                    android:onClick="@{() -> viewmodel.showImageChooser()}"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/add_attached_image"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/font_large"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_larger"
+                    android:orientation="horizontal"
+                    app:items="@{viewmodel.attachedImages}"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/attached_image_item" />
+            </LinearLayout>
         </ScrollView>
-
-        <TextView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:background="?selectableItemBackgroundBorderless"
-            android:drawableStart="@drawable/ic_image_black_24dp"
-            android:drawablePadding="@dimen/spacing_tiny"
-            android:gravity="center_vertical"
-            android:onClick="@{() -> viewmodel.showImageChooser()}"
-            android:padding="@dimen/spacing_small"
-            android:text="@string/add_attached_image"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_large"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_larger"
-            android:orientation="horizontal"
-            app:items="@{viewmodel.attachedImages}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/attached_image_item" />
-
     </LinearLayout>
 </layout>
