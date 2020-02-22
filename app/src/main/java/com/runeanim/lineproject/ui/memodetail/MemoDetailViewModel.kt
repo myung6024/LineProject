@@ -2,23 +2,30 @@ package com.runeanim.lineproject.ui.memodetail
 
 import androidx.lifecycle.*
 import com.runeanim.lineproject.base.AttachedImageClickListener
-import com.runeanim.lineproject.local.MemosDao
-import com.runeanim.lineproject.model.AttachedImage
-import com.runeanim.lineproject.model.Memo
+import com.runeanim.lineproject.data.Result.Success
+import com.runeanim.lineproject.data.model.AttachedImage
+import com.runeanim.lineproject.data.model.Memo
+import com.runeanim.lineproject.data.source.MemosRepository
 import com.runeanim.lineproject.util.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MemoDetailViewModel(
-    private val memosDao: MemosDao
+    private val memosRepository: MemosRepository
 ) : ViewModel(), AttachedImageClickListener {
 
     private val _memoId = MutableLiveData<Int>()
 
     private val _memo = _memoId.switchMap { memoId ->
-        memosDao.observeMemoById(memoId)
+        memosRepository.observeMemo(memoId).map {
+            if (it is Success) {
+                it.data
+            } else {
+                null
+            }
+        }
     }
-    val memo: LiveData<Memo> = _memo
+    val memo: LiveData<Memo?> = _memo
 
     private val _editMemoEvent = MutableLiveData<Event<Unit>>()
     val editMemoEvent: LiveData<Event<Unit>> = _editMemoEvent
@@ -48,7 +55,7 @@ class MemoDetailViewModel(
         val memoId = _memoId.value
         memoId?.let {
             viewModelScope.launch(Dispatchers.IO) {
-                memosDao.removeMemoById(memoId)
+                memosRepository.deleteMemo(memoId)
             }
         }
         _closeEvent.value = Event(Unit)

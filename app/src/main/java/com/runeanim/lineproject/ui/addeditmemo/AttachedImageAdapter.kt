@@ -2,13 +2,12 @@ package com.runeanim.lineproject.ui.addeditmemo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.runeanim.lineproject.base.AttachedImageClickListener
 import com.runeanim.lineproject.databinding.AttachedImageItemBinding
-import com.runeanim.lineproject.model.AttachedImage
+import com.runeanim.lineproject.data.model.AttachedImage
 
 class AttachedImageAdapter(val listener: AttachedImageClickListener, val isEditMode: Boolean = false) :
     ListAdapter<AttachedImage, AttachedImageAdapter.ViewHolder>(TaskDiffCallback()) {

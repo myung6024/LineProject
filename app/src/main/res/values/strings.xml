@@ -1,6 +1,24 @@
 <resources>
-    <string name="app_name">LineProject</string>
+    <string name="app_name">Memo App</string>
 
     <string name="image_from_storage">갤러리에서 가져오기</string>
     <string name="image_from_url">URL 주소로 가져오기</string>
+
+    <string name="error_not_matched_url_format">https://를 포함하여 정확하게 주소를 입력해주세요.</string>
+    <string name="error_content_type">이미지 형식의 파일이 아닙니다.</string>
+    <string name="error_empty_title">제목을 입력해주세요.</string>
+    <string name="error_empty_body">내용을 입력해주세요.</string>
+
+    <string name="memo_date_format">yyyy년 M월 d일 H시 m분</string>
+
+    <string name="empty_memo_list">저장된 메모가 없습니다.</string>
+
+    <string name="memo_save">저장</string>
+    <string name="memo_title">제목</string>
+    <string name="memo_body">내용</string>
+    <string name="add_attached_image">이미지 추가</string>
+
+    <string name="add_url_image_dialog_message">이미지의 url을 입력하세요</string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
 </resources>

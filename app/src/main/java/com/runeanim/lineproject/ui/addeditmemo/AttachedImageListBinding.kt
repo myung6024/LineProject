@@ -4,7 +4,7 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.runeanim.lineproject.model.AttachedImage
+import com.runeanim.lineproject.data.model.AttachedImage
 
 @BindingAdapter("app:thumbnailImage")
 fun ImageView.setProductImage(path: String?) {

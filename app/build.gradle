@@ -64,12 +64,14 @@ dependencies {
     implementation "androidx.room:room-ktx:$roomVersion"
 
     // Koin for Kotlin
+    // https://github.com/InsertKoinIO/koin
     implementation "org.koin:koin-android:$koinVersion"
     implementation "org.koin:koin-core:$koinVersion"
     implementation "org.koin:koin-core-ext:$koinVersion"
     implementation "org.koin:koin-androidx-viewmodel:$koinVersion"
 
     // Retrofit2
+    // https://github.com/square/retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -77,19 +79,18 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okHttpLoggingVersion"
     implementation "com.squareup.okhttp3:okhttp:$okHttpVersion"
 
-    // reactive extensions
-    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
-
     // glide
+    // https://github.com/bumptech/glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
 
-    implementation 'gun0912.ted:tedimagepicker:1.0.8'
+    // image picker
+    // https://github.com/ParkSangGwon/TedImagePicker
+    implementation "gun0912.ted:tedimagepicker:$tedImagepickerVersion"
 
-    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    // https://github.com/chrisbanes/PhotoView
+    implementation "com.github.chrisbanes:PhotoView:$photoViewVersion"
 
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-
+    // https://github.com/vinc3m1/RoundedImageView
     implementation "com.makeramen:roundedimageview:$roundedImageVersion"
 }

@@ -5,11 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.runeanim.lineproject.R
 import com.runeanim.lineproject.base.AttachedImageClickListener
-import com.runeanim.lineproject.local.MemosDao
-import com.runeanim.lineproject.model.AttachedImage
-import com.runeanim.lineproject.model.AttachedImageType
-import com.runeanim.lineproject.model.Memo
+import com.runeanim.lineproject.data.Result
+import com.runeanim.lineproject.data.model.AttachedImage
+import com.runeanim.lineproject.data.model.AttachedImageType
+import com.runeanim.lineproject.data.model.Memo
+import com.runeanim.lineproject.data.source.MemosRepository
 import com.runeanim.lineproject.util.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +20,7 @@ import java.util.regex.Pattern
 
 
 class AddEditMemoViewModel(
-    private val memosDao: MemosDao
+    private val memosRepository: MemosRepository
 ) : ViewModel(), AttachedImageClickListener {
 
     val title = MutableLiveData<String>()
@@ -30,15 +32,14 @@ class AddEditMemoViewModel(
 
     private val attachedImageList = arrayListOf<AttachedImage>()
 
-    private val _memoUpdatedEvent = MutableLiveData<Event<Unit>>()
-    val memoUpdatedEvent: LiveData<Event<Unit>> = _memoUpdatedEvent
-
     private val _showImageChooserEvent = MutableLiveData<Event<Unit>>()
     val showImageChooserEvent: LiveData<Event<Unit>> = _showImageChooserEvent
 
-    fun showImageChooser() {
-        _showImageChooserEvent.value = Event(Unit)
-    }
+    private val _closeEvent = MutableLiveData<Event<Unit>>()
+    val closeEvent: LiveData<Event<Unit>> = _closeEvent
+
+    private val _snackbarText = MutableLiveData<Event<Int>>()
+    val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     private var memoId: Int = -1
 
@@ -56,21 +57,24 @@ class AddEditMemoViewModel(
 
         isNewMemo = false
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = memosDao.getMemoById(memoId)
-            launch(Dispatchers.Main) {
-                result?.let {
-                    onMemoLoaded(it)
+        viewModelScope.launch {
+            memosRepository.getMemo(memoId).let { result ->
+                if (result is Result.Success) {
+                    onMemoLoaded(result.data)
                 }
             }
         }
+    }
+
+    fun close() {
+        _closeEvent.value = Event(Unit)
     }
 
     private fun onMemoLoaded(memo: Memo) {
         title.value = memo.title
         body.value = memo.body
         attachedImageList.addAll(memo.attachedImages)
-        imageId = attachedImageList.last().id + 1
+        if (attachedImageList.isNotEmpty()) imageId = attachedImageList.last().id + 1
         _attachedImages.value = attachedImageList.toMutableList()
     }
 
@@ -79,14 +83,20 @@ class AddEditMemoViewModel(
         val currentTitle = title.value
         val currentBody = body.value
 
-        if (currentTitle == null || currentBody == null) {
+        if (currentTitle == null) {
+            _snackbarText.value = Event(R.string.error_empty_title)
+            return
+        }
+
+        if (currentBody == null) {
+            _snackbarText.value = Event(R.string.error_empty_body)
             return
         }
 
         val currentMemoId = memoId
         if (isNewMemo || currentMemoId == -1) {
             viewModelScope.launch {
-                memosDao.insertMemo(
+                memosRepository.saveMemo(
                     Memo(
                         currentTitle,
                         currentBody,
@@ -97,7 +107,7 @@ class AddEditMemoViewModel(
             }
         } else {
             viewModelScope.launch {
-                memosDao.insertMemo(
+                memosRepository.saveMemo(
                     Memo(
                         currentTitle,
                         currentBody,
@@ -108,7 +118,7 @@ class AddEditMemoViewModel(
                 )
             }
         }
-        _memoUpdatedEvent.value = Event(Unit)
+        _closeEvent.value = Event(Unit)
     }
 
     fun addAttachedImages(attachedImages: List<Uri>) {
@@ -123,24 +133,31 @@ class AddEditMemoViewModel(
     }
 
     fun addAttachedImageFromURL(url: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val connection =
-                URL(url).openConnection()
-            val contentType = connection.getHeaderField("Content-Type")
-            val isImage = contentType?.startsWith("image/") ?: false
+        val reg = "https?://[-\\w.]+(:\\d+)?(/([\\w/_.]*)?)?"
+        if (Pattern.matches(reg, url)) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val connection =
+                    URL(url).openConnection()
+                val contentType = connection.getHeaderField("Content-Type")
+                val isImage = contentType?.startsWith("image/") ?: false
 
-            launch(Dispatchers.Main) {
-                if (isImage) {
-                    attachedImageList.add(
-                        AttachedImage(
-                            imageId++,
-                            AttachedImageType.URL,
-                            url
+                launch(Dispatchers.Main) {
+                    if (isImage) {
+                        attachedImageList.add(
+                            AttachedImage(
+                                imageId++,
+                                AttachedImageType.URL,
+                                url
+                            )
                         )
-                    )
-                    _attachedImages.value = attachedImageList.toMutableList()
+                        _attachedImages.value = attachedImageList.toMutableList()
+                    } else {
+                        _snackbarText.value = Event(R.string.error_content_type)
+                    }
                 }
             }
+        } else {
+            _snackbarText.value = Event(R.string.error_not_matched_url_format)
         }
     }
 
@@ -151,5 +168,9 @@ class AddEditMemoViewModel(
     private fun removeAttachedImage(attachedImage: AttachedImage) {
         attachedImageList.remove(attachedImage)
         _attachedImages.value = attachedImageList.toMutableList()
+    }
+
+    fun showImageChooser() {
+        _showImageChooserEvent.value = Event(Unit)
     }
 }

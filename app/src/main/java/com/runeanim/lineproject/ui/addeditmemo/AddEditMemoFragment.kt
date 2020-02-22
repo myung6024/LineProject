@@ -3,24 +3,29 @@ package com.runeanim.lineproject.ui.addeditmemo
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.runeanim.lineproject.R
 import com.runeanim.lineproject.base.BaseFragment
 import com.runeanim.lineproject.databinding.AddMemoFragmentBinding
 import com.runeanim.lineproject.util.EventObserver
+import com.runeanim.lineproject.util.setupSnackbar
 import gun0912.tedimagepicker.builder.TedImagePicker
 import kotlinx.android.synthetic.main.add_memo_fragment.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import android.widget.EditText
-import java.util.regex.Pattern
+import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 
 
 class AddEditMemoFragment :
@@ -42,20 +47,30 @@ class AddEditMemoFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        //setupImageChooser()
+        setupNavigation()
         setupEventObserve()
         setupListAdapter()
+        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
 
         viewModel.start(args.memoId)
     }
 
     private fun setupEventObserve() {
         viewModel.showImageChooserEvent.observe(this, EventObserver {
-            createFilterSelectDialog().show()
+            createImageTypeSelectDialog().show()
         })
-        viewModel.memoUpdatedEvent.observe(this, EventObserver {
+    }
+
+    private fun setupNavigation() {
+        viewModel.closeEvent.observe(this, EventObserver {
+            activity?.currentFocus?.hideKeyboard()
             navigateToMemos()
         })
+    }
+
+    private fun View.hideKeyboard() {
+        val imm = context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun showImageChooser() {
@@ -114,7 +129,7 @@ class AddEditMemoFragment :
         }
     }
 
-    private fun createFilterSelectDialog(): AlertDialog =
+    private fun createImageTypeSelectDialog(): AlertDialog =
         context?.let {
             val builder = AlertDialog.Builder(it)
             builder
@@ -130,24 +145,19 @@ class AddEditMemoFragment :
         } ?: throw IllegalStateException("Activity cannot be null")
 
     private fun showUrlDialog() {
-        val et = EditText(context)
-        et.hint = "http://"
-        val dialog = AlertDialog.Builder(context!!, R.style.MyAlertDialogStyle)
-            .setMessage("이미지의 url을 입력하세요")
-            .setView(et)
-            .setPositiveButton("확인") { _, _ ->
-            }.create()
-        dialog.show()
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setOnClickListener {
-                val url = et.text.toString()
-                val reg = "https?://[-\\w.]+(:\\d+)?(/([\\w/_.]*)?)?"
-                if (Pattern.matches(reg, url)) {
-                    viewModel.addAttachedImageFromURL(url)
-                    dialog.dismiss()
-                }
+        val urlEditText = EditText(context).apply {
+            hint = "https://"
+        }
+        AlertDialog.Builder(context!!, R.style.MyAlertDialogStyle)
+            .setMessage(R.string.add_url_image_dialog_message)
+            .setView(urlEditText)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                val url = urlEditText.text.toString()
+                viewModel.addAttachedImageFromURL(url)
             }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                urlEditText.text.clear()
+            }.create().show()
     }
 
     private fun navigateToMemos() {

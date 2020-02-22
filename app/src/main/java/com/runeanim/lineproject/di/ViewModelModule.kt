@@ -8,7 +8,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val ViewModelModule = module {
-    viewModel { MemosViewModel(get()) }
+    viewModel { MemosViewModel(get(), get()) }
     viewModel { AddEditMemoViewModel(get()) }
     viewModel { MemoDetailViewModel(get()) }
     viewModel { ImageDetailViewModel() }

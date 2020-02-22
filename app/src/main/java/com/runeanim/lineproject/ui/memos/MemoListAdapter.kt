@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.runeanim.lineproject.databinding.MemoItemBinding
-import com.runeanim.lineproject.model.Memo
+import com.runeanim.lineproject.data.model.Memo
 
 class MemoListAdapter(private val viewmodel: MemosViewModel) :
     ListAdapter<Memo, MemoListAdapter.ViewHolder>(TaskDiffCallback()) {

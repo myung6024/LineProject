@@ -63,4 +63,6 @@ ext {
     rxandroidVersion = "2.1.1"
     timberVersion = '4.7.1'
     truthVersion = '1.0'
+    tedImagepickerVersion = '1.0.8'
+    photoViewVersion = '2.3.0'
 }

@@ -1,9 +1,9 @@
-package com.runeanim.lineproject.local
+package com.runeanim.lineproject.data.source.local
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.runeanim.lineproject.model.AttachedImage
+import com.runeanim.lineproject.data.model.AttachedImage
 
 class RoomConverter {
     val gson = Gson()

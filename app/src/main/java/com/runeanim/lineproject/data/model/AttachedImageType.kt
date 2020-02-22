@@ -1,4 +1,4 @@
-package com.runeanim.lineproject.model
+package com.runeanim.lineproject.data.model
 
 enum class AttachedImageType{
     URI,

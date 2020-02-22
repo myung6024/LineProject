@@ -10,7 +10,11 @@
         android:label="Memo Details">
         <action
             android:id="@+id/action_memoDetailFragment_to_addEditMemoFragment"
-            app:destination="@id/add_edit_memo_fragment_dest" />
+            app:destination="@id/add_edit_memo_fragment_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="memoId"
             android:defaultValue="-1"
@@ -18,11 +22,19 @@
         <action
             android:id="@+id/action_memoDetailFragment_to_memosFragment"
             app:destination="@id/memos_fragment_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_memo_detail_fragment_dest_to_image_detail_fragment_dest"
-            app:destination="@id/image_detail_fragment_dest" />
+            app:destination="@id/image_detail_fragment_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -31,10 +43,18 @@
         android:label="@string/app_name">
         <action
             android:id="@+id/action_memosFragment_to_memoDetailFragment"
-            app:destination="@id/memo_detail_fragment_dest" />
+            app:destination="@id/memo_detail_fragment_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_memosFragment_to_addEditMemoFragment"
-            app:destination="@id/add_edit_memo_fragment_dest" />
+            app:destination="@id/add_edit_memo_fragment_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
             android:name="userMessage"
             android:defaultValue="0"
@@ -62,6 +82,10 @@
         <action
             android:id="@+id/action_addEditMemoFragment_to_memosFragment"
             app:destination="@id/memos_fragment_dest"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
